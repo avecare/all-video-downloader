@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Video Downloader</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;font-family:Arial,sans-serif;
+background:linear-gradient(140deg,#101827,#203b5c);
+color:white;min-height:100vh;
+display:flex;justify-content:center;align-items:center;
+padding:20px
+}
+.container{
+width:100%;max-width:480px;
+background:white;color:#172338;
+padding:28px;border-radius:22px;
+box-shadow:0 15px 45px #0005;text-align:center
+}
+.logo{font-size:42px}
+h1{font-size:25px;margin:10px 0}
+p{color:#718096;line-height:1.7}
+.tabs{display:flex;gap:8px;margin:25px 0}
+.tabs button{
+flex:1;padding:12px;border:0;border-radius:10px;
+background:#edf1f7;color:#263c58;font-weight:bold
+}
+.tabs button.active{background:#172d49;color:white}
+input,select{
+width:100%;padding:15px;margin:8px 0;
+border:1px solid #dce2eb;border-radius:10px;
+font-size:15px
+}
+.main{
+width:100%;padding:15px;border:0;
+border-radius:10px;background:#ff8b38;
+font-size:17px;font-weight:bold;cursor:pointer
+}
+#result{margin-top:18px;font-size:14px;line-height:1.8}
+.note{font-size:12px;color:#8994a5;margin-top:25px}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo">⬇️</div>
+<h1>All Video Downloader</h1>
+<p>أداة تحميل الوسائط بطريقة سهلة وسريعة</p>
+
+<div class="tabs">
+<button class="active" onclick="choose('YouTube',this)">YouTube</button>
+<button onclick="choose('Facebook',this)">Facebook</button>
+</div>
+
+<input id="url" type="url" placeholder="ضعي رابط الفيديو هنا">
+
+<select id="format">
+<option value="MP4">تحميل فيديو MP4</option>
+<option value="MP3">استخراج صوت MP3</option>
+</select>
+
+<button class="main" onclick="downloadVideo()">تحليل الرابط</button>
+
+<div id="result">الصقي الرابط واضغطي تحليل الرابط</div>
+
+<div class="note">
+يدعم الموقع المحتوى الذي تملكين حق تنزيله، وفق شروط المنصات.
+</div>
+</div>
+
+<script>
+let platform="YouTube";
+
+function choose(name,button){
+platform=name;
+document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+button.classList.add('active');
+}
+
+function downloadVideo(){
+let url=document.getElementById('url').value.trim();
+let result=document.getElementById('result');
+
+if(!url){
+result.innerText="يرجى وضع رابط الفيديو أولاً";
+return;
+}
+
+try{
+let link=new URL(url);
+if(!["http:","https:"].includes(link.protocol))throw 0;
+}catch(e){
+result.innerText="الرابط غير صحيح";
+return;
+}
+
+result.innerText=
+"تم استلام الرابط بنجاح. لتنزيل فيديوهات "+platform+
+" يجب استخدام وسيلة تنزيل رسمية أو خدمة معالجة مصرح بها. لم يتم تنزيل الملف بعد.";
+}
+</script>
+</body>
+</html>
