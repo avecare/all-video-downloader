@@ -1,104 +1,119 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101b32">
 <title>All Video Downloader</title>
 <style>
 *{box-sizing:border-box}
-body{
-margin:0;font-family:Arial,sans-serif;
-background:linear-gradient(140deg,#101827,#203b5c);
-color:white;min-height:100vh;
-display:flex;justify-content:center;align-items:center;
-padding:20px
-}
-.container{
-width:100%;max-width:480px;
-background:white;color:#172338;
-padding:28px;border-radius:22px;
-box-shadow:0 15px 45px #0005;text-align:center
-}
-.logo{font-size:42px}
-h1{font-size:25px;margin:10px 0}
-p{color:#718096;line-height:1.7}
-.tabs{display:flex;gap:8px;margin:25px 0}
-.tabs button{
-flex:1;padding:12px;border:0;border-radius:10px;
-background:#edf1f7;color:#263c58;font-weight:bold
-}
-.tabs button.active{background:#172d49;color:white}
-input,select{
-width:100%;padding:15px;margin:8px 0;
-border:1px solid #dce2eb;border-radius:10px;
-font-size:15px
-}
-.main{
-width:100%;padding:15px;border:0;
-border-radius:10px;background:#ff8b38;
-font-size:17px;font-weight:bold;cursor:pointer
-}
-#result{margin-top:18px;font-size:14px;line-height:1.8}
-.note{font-size:12px;color:#8994a5;margin-top:25px}
+body{margin:0;min-height:100vh;padding:24px 16px;display:grid;place-items:center;background:radial-gradient(circle at 15% 10%,#1e4165,transparent 35%),linear-gradient(145deg,#09111f,#142844);font-family:system-ui,Arial;color:#fff}
+main{width:min(100%,520px);padding:30px;background:#121f35;border:1px solid #293b56;border-radius:24px;box-shadow:0 24px 70px #0008}
+.brand{display:flex;align-items:center;justify-content:center;gap:12px}
+.logo{width:52px;height:52px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(135deg,#ffb15d,#ff7b35);font-size:27px}
+h1{font-size:24px;margin:0}
+.subtitle{text-align:center;color:#9aabc4;line-height:1.8;margin:16px 0 24px}
+.tabs,.format{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{cursor:pointer}
+.tabs button,.format button{border:1px solid #293b56;background:#192a43;color:#dce7f5;border-radius:12px;padding:13px;font-weight:700}
+.tabs button.active,.format button.active{background:#294b70;border-color:#5da9e8;color:white}
+label{display:block;margin:18px 0 8px;font-size:14px}
+input{width:100%;padding:15px;border:1px solid #293b56;border-radius:12px;background:#0c1729;color:white;font-size:15px}
+input:focus{outline:2px solid #55b8ff}
+.primary{width:100%;margin-top:20px;padding:15px;border:0;border-radius:12px;background:linear-gradient(90deg,#ff9d48,#ff7837);color:#1d2430;font-size:16px;font-weight:800}
+#result{display:none;margin-top:18px;padding:14px;border:1px solid #293b56;border-radius:12px;background:#0d192b;color:#dce7f5;line-height:1.8;font-size:14px}
+#result.show{display:block}
+.hint{font-size:12px;color:#9aabc4;line-height:1.8;margin:20px 0 0;text-align:center}
+footer{text-align:center;color:#7588a4;font-size:11px;margin-top:18px}
+@media(max-width:420px){main{padding:22px 18px}h1{font-size:21px}}
 </style>
 </head>
 <body>
-<div class="container">
-<div class="logo">⬇️</div>
+<main>
+<div class="brand">
+<div class="logo">⬇</div>
 <h1>All Video Downloader</h1>
-<p>أداة تحميل الوسائط بطريقة سهلة وسريعة</p>
+</div>
+
+<p class="subtitle">حمّل مقاطعك بسهولة واختر الصيغة المناسبة</p>
 
 <div class="tabs">
-<button class="active" onclick="choose('YouTube',this)">YouTube</button>
-<button onclick="choose('Facebook',this)">Facebook</button>
+<button type="button" class="active" data-platform="YouTube">YouTube</button>
+<button type="button" data-platform="Facebook">Facebook</button>
 </div>
 
-<input id="url" type="url" placeholder="ضعي رابط الفيديو هنا">
+<label for="url">رابط الفيديو</label>
+<input id="url" type="url" placeholder="الصق رابط الفيديو هنا">
 
-<select id="format">
-<option value="MP4">تحميل فيديو MP4</option>
-<option value="MP3">استخراج صوت MP3</option>
-</select>
-
-<button class="main" onclick="downloadVideo()">تحليل الرابط</button>
-
-<div id="result">الصقي الرابط واضغطي تحليل الرابط</div>
-
-<div class="note">
-يدعم الموقع المحتوى الذي تملكين حق تنزيله، وفق شروط المنصات.
+<label>صيغة الملف</label>
+<div class="format">
+<button type="button" class="active" data-format="MP4">فيديو MP4</button>
+<button type="button" data-format="MP3">صوت MP3</button>
 </div>
-</div>
+
+<button class="primary" id="analyze" type="button">تحليل الرابط</button>
+<div id="result" role="status" aria-live="polite"></div>
+
+<p class="hint">استخدم الأداة مع المحتوى الذي تملكه أو لديك إذن بتنزيله. التنزيل الفعلي يحتاج إلى خادم معالجة.</p>
+<footer>All Video Downloader</footer>
+</main>
 
 <script>
-let platform="YouTube";
+let platform='YouTube';
+let format='MP4';
+const result=document.getElementById('result');
 
-function choose(name,button){
-platform=name;
-document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
-button.classList.add('active');
-}
+document.querySelectorAll('[data-platform]').forEach(button=>{
+button.addEventListener('click',()=>{
+platform=button.dataset.platform;
+document.querySelectorAll('[data-platform]').forEach(item=>{
+item.classList.toggle('active',item===button);
+});
+});
+});
 
-function downloadVideo(){
-let url=document.getElementById('url').value.trim();
-let result=document.getElementById('result');
+document.querySelectorAll('[data-format]').forEach(button=>{
+button.addEventListener('click',()=>{
+format=button.dataset.format;
+document.querySelectorAll('[data-format]').forEach(item=>{
+item.classList.toggle('active',item===button);
+});
+});
+});
 
-if(!url){
-result.innerText="يرجى وضع رابط الفيديو أولاً";
+document.getElementById('analyze').addEventListener('click',()=>{
+const value=document.getElementById('url').value.trim();
+result.classList.add('show');
+
+if(!value){
+result.textContent='يرجى لصق رابط الفيديو أولاً.';
 return;
 }
 
+let parsed;
 try{
-let link=new URL(url);
-if(!["http:","https:"].includes(link.protocol))throw 0;
+parsed=new URL(value);
+if(!['http:','https:'].includes(parsed.protocol))throw new Error();
 }catch(e){
-result.innerText="الرابط غير صحيح";
+result.textContent='الرابط غير صحيح. تأكد من الرابط.';
 return;
 }
 
-result.innerText=
-"تم استلام الرابط بنجاح. لتنزيل فيديوهات "+platform+
-" يجب استخدام وسيلة تنزيل رسمية أو خدمة معالجة مصرح بها. لم يتم تنزيل الملف بعد.";
+const host=parsed.hostname.toLowerCase().replace(/^www\./,'');
+const domains=platform==='YouTube'
+?['youtube.com','youtu.be']
+:['facebook.com','fb.watch'];
+
+const valid=domains.some(domain=>host===domain||host.endsWith('.'+domain));
+
+if(!valid){
+result.textContent='الرابط لا يبدو تابعاً لمنصة '+platform+'.';
+return;
 }
+
+result.textContent='تم التحقق من الرابط واختيار '+format+'. لكن التنزيل الفعلي لم يبدأ بعد؛ يحتاج إلى خادم معالجة خارجي.';
+});
 </script>
 </body>
 </html>
