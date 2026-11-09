@@ -1,187 +1,287 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>محمل الفيديوهات</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AveCare - محول الفيديو والصوت</title>
 
-<style>
-*{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#0b1020;
- color:white;
- min-height:100vh;
- display:flex;
- justify-content:center;
- align-items:center;
- padding:20px;
-}
-.container{
- width:100%;
- max-width:480px;
- background:#151d32;
- padding:25px;
- border-radius:22px;
- box-shadow:0 10px 40px #0006;
-}
-.logo{
- font-size:45px;
- text-align:center;
-}
-h1{text-align:center;margin:10px 0}
-.desc{text-align:center;color:#aab4cc;font-size:14px}
-label{display:block;margin:18px 0 8px}
-input,select{
- width:100%;
- padding:15px;
- border-radius:12px;
- border:1px solid #34415e;
- background:#0d1528;
- color:white;
- font-size:15px;
- outline:none;
-}
-button{
- width:100%;
- padding:15px;
- border:0;
- border-radius:12px;
- background:linear-gradient(90deg,#ff6b35,#ff9d42);
- color:white;
- font-size:17px;
- font-weight:bold;
- margin-top:18px;
- cursor:pointer;
-}
-button:active{transform:scale(.98)}
-.preview{
- display:none;
- margin-top:20px;
- background:#0d1528;
- padding:12px;
- border-radius:15px;
- text-align:center;
-}
-.preview img{
- width:100%;
- border-radius:12px;
-}
-.message{
- margin-top:15px;
- padding:12px;
- border-radius:10px;
- background:#202d47;
- color:#d9e4ff;
- text-align:center;
- line-height:1.7;
- font-size:14px;
-}
-.footer{
- text-align:center;
- color:#8995ae;
- font-size:12px;
- margin-top:22px;
-}
-</style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Tahoma, Arial, sans-serif;
+      background: linear-gradient(145deg, #071426, #102b46);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      background: #10243a;
+      border: 1px solid #29445e;
+      border-radius: 22px;
+      padding: 30px 22px;
+      box-shadow: 0 15px 45px #0005;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 35px;
+      font-weight: bold;
+      color: #ff9d36;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 23px;
+      margin: 10px 0;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #a9bdce;
+      font-size: 14px;
+      margin-bottom: 28px;
+      line-height: 1.8;
+    }
+
+    label {
+      display: block;
+      margin: 17px 0 9px;
+      font-size: 14px;
+      color: #d8e5ef;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #38536c;
+      background: #081a2b;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: #ff9d36;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #ff8b25, #ffb34d);
+      color: #142236;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    #message {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #081a2b;
+      text-align: center;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    #downloadLink {
+      display: none;
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #168653;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .note {
+      color: #91a9bc;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 22px;
+      line-height: 1.8;
+    }
+
+    footer {
+      text-align: center;
+      color: #7891a7;
+      font-size: 12px;
+      margin-top: 25px;
+    }
+  </style>
 </head>
 
 <body>
-<div class="container">
+  <main class="container">
 
-<div class="logo">📥</div>
-<h1>محمل الفيديوهات</h1>
-<p class="desc">أدخل رابط الفيديو لعرض المعاينة</p>
+    <div class="logo">AveCare</div>
 
-<label>رابط الفيديو</label>
-<input id="videoUrl" type="url" placeholder="ضع رابط الفيديو هنا">
+    <h1>محول الفيديو والصوت</h1>
 
-<label>صيغة الملف</label>
-<select id="format">
-<option value="mp4">MP4 - فيديو</option>
-<option value="mp3">MP3 - صوت</option>
-</select>
+    <p class="subtitle">
+      حوّل ملفات الفيديو والصوت بسهولة إلى الصيغة التي تريدها
+    </p>
 
-<button onclick="analyzeVideo()">تحليل الرابط</button>
+    <form id="convertForm">
 
-<div class="preview" id="preview">
-<img id="thumbnail" alt="معاينة الفيديو">
-<h3 id="videoTitle">معاينة الفيديو</h3>
-</div>
+      <label for="videoUrl">رابط الملف المباشر</label>
+      <input
+        id="videoUrl"
+        type="url"
+        placeholder="https://example.com/video.mp4"
+        required
+      >
 
-<div class="message" id="message">
-اختر رابط الفيديو واضغط تحليل الرابط.
-</div>
+      <label for="format">اختر صيغة التحويل</label>
+      <select id="format">
+        <option value="mp3">MP3 - صوت</option>
+        <option value="mp4">MP4 - فيديو</option>
+      </select>
 
-<div class="footer">
-أداة مجانية لعرض معاينة روابط الفيديو
-</div>
+      <button id="convertButton" type="submit">
+        ابدأ التحويل
+      </button>
 
-</div>
+    </form>
 
-<script>
-function analyzeVideo(){
+    <div id="message" role="status"></div>
 
- const url=document.getElementById("videoUrl").value.trim();
- const preview=document.getElementById("preview");
- const message=document.getElementById("message");
- const thumbnail=document.getElementById("thumbnail");
- const title=document.getElementById("videoTitle");
+    <a id="downloadLink" target="_blank" rel="noopener">
+      تحميل الملف الناتج
+    </a>
 
- preview.style.display="none";
+    <p class="note">
+      يجب استخدام رابط مباشر لملف تملكه أو لديك إذن باستخدامه.
+      لا تدعم الأداة روابط صفحات يوتيوب أو فيسبوك.
+    </p>
 
- if(!url){
-  message.textContent="يرجى إدخال رابط الفيديو أولاً.";
-  return;
- }
+    <footer>
+      © 2026 AveCare - جميع الحقوق محفوظة
+    </footer>
 
- let videoId=null;
+  </main>
 
- try{
-  const parsed=new URL(url);
-  const host=parsed.hostname.replace(/^www\./,"");
+  <script>
+    const API_URL =
+      "https://all-video-downloader.alamrat2026.workers.dev";
 
-  if(host==="youtu.be"){
-   videoId=parsed.pathname.split("/")[1];
-  }
+    const form = document.getElementById("convertForm");
+    const urlInput = document.getElementById("videoUrl");
+    const formatInput = document.getElementById("format");
+    const button = document.getElementById("convertButton");
+    const message = document.getElementById("message");
+    const downloadLink = document.getElementById("downloadLink");
 
-  if(host==="youtube.com" || host==="m.youtube.com"){
-   videoId=parsed.searchParams.get("v");
+    function showMessage(text) {
+      message.style.display = "block";
+      message.textContent = text;
+    }
 
-   if(!videoId){
-    const parts=parsed.pathname.split("/");
-    const index=parts.findIndex(p=>p==="embed" || p==="shorts");
-    if(index!==-1) videoId=parts[index+1];
-   }
-  }
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
- }catch(e){
-  message.textContent="الرابط غير صحيح. تأكد من نسخه بشكل صحيح.";
-  return;
- }
+    async function checkStatus(jobId) {
+      for (let i = 0; i < 90; i++) {
+        await sleep(3000);
 
- if(videoId && /^[a-zA-Z0-9_-]{11}$/.test(videoId)){
-  thumbnail.src="https://i.ytimg.com/vi/"+videoId+"/hqdefault.jpg";
-  title.textContent="معاينة فيديو YouTube";
-  preview.style.display="block";
+        const response = await fetch(
+          API_URL + "/api/status?id=" + encodeURIComponent(jobId)
+        );
 
-  message.textContent=
-   "تم التعرف على رابط الفيديو بنجاح. هذه معاينة فقط؛ تنزيل MP3 أو MP4 يحتاج إلى خادم معالجة خارجي.";
-  return;
- }
+        const data = await response.json();
 
- if(url.includes("facebook.com") || url.includes("fb.watch")){
-  message.textContent=
-   "تم إدخال رابط Facebook. عرض المعاينة والتنزيل يحتاج إلى ربط خدمة معالجة خارجية.";
-  return;
- }
+        if (!response.ok) {
+          throw new Error(data.error || "تعذر متابعة التحويل");
+        }
 
- message.textContent=
-  "لم نتمكن من التعرف على المنصة. جرّب رابط YouTube أو Facebook.";
-}
-</script>
+        if (data.status === "finished" && data.downloadUrl) {
+          return data;
+        }
+
+        if (data.status === "error") {
+          throw new Error(data.error || "فشل التحويل");
+        }
+
+        showMessage("⏳ جاري تحويل الملف... يرجى الانتظار");
+      }
+
+      throw new Error("استغرق التحويل وقتاً طويلاً، حاول مرة أخرى.");
+    }
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const url = urlInput.value.trim();
+      const format = formatInput.value;
+
+      button.disabled = true;
+      button.textContent = "جاري التحويل...";
+      downloadLink.style.display = "none";
+
+      try {
+        showMessage("⏳ جاري إرسال الملف للتحويل...");
+
+        const response = await fetch(API_URL + "/api/convert", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            url: url,
+            format: format
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "تعذر بدء التحويل");
+        }
+
+        showMessage("⏳ تم استلام الطلب. جاري معالجة الملف...");
+
+        const result = await checkStatus(data.jobId);
+
+        downloadLink.href = result.downloadUrl;
+        downloadLink.download = result.filename || "converted-file";
+        downloadLink.style.display = "block";
+
+        showMessage("✅ اكتمل التحويل بنجاح!");
+
+        button.textContent = "تحويل ملف آخر";
+
+      } catch (error) {
+        showMessage("❌ " + error.message);
+        button.textContent = "إعادة المحاولة";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
 
 </body>
 </html>
