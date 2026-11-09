@@ -4,116 +4,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101b32">
-<title>All Video Downloader</title>
+<title>محمل الفيديوهات</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;padding:24px 16px;display:grid;place-items:center;background:radial-gradient(circle at 15% 10%,#1e4165,transparent 35%),linear-gradient(145deg,#09111f,#142844);font-family:system-ui,Arial;color:#fff}
-main{width:min(100%,520px);padding:30px;background:#121f35;border:1px solid #293b56;border-radius:24px;box-shadow:0 24px 70px #0008}
-.brand{display:flex;align-items:center;justify-content:center;gap:12px}
-.logo{width:52px;height:52px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(135deg,#ffb15d,#ff7b35);font-size:27px}
-h1{font-size:24px;margin:0}
-.subtitle{text-align:center;color:#9aabc4;line-height:1.8;margin:16px 0 24px}
-.tabs,.format{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-button{cursor:pointer}
-.tabs button,.format button{border:1px solid #293b56;background:#192a43;color:#dce7f5;border-radius:12px;padding:13px;font-weight:700}
-.tabs button.active,.format button.active{background:#294b70;border-color:#5da9e8;color:white}
-label{display:block;margin:18px 0 8px;font-size:14px}
-input{width:100%;padding:15px;border:1px solid #293b56;border-radius:12px;background:#0c1729;color:white;font-size:15px}
-input:focus{outline:2px solid #55b8ff}
-.primary{width:100%;margin-top:20px;padding:15px;border:0;border-radius:12px;background:linear-gradient(90deg,#ff9d48,#ff7837);color:#1d2430;font-size:16px;font-weight:800}
-#result{display:none;margin-top:18px;padding:14px;border:1px solid #293b56;border-radius:12px;background:#0d192b;color:#dce7f5;line-height:1.8;font-size:14px}
-#result.show{display:block}
-.hint{font-size:12px;color:#9aabc4;line-height:1.8;margin:20px 0 0;text-align:center}
-footer{text-align:center;color:#7588a4;font-size:11px;margin-top:18px}
-@media(max-width:420px){main{padding:22px 18px}h1{font-size:21px}}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#0b1020;
+ color:white;
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ padding:20px;
+}
+.container{
+ width:100%;
+ max-width:480px;
+ background:#151d32;
+ padding:25px;
+ border-radius:22px;
+ box-shadow:0 10px 40px #0006;
+}
+.logo{
+ font-size:45px;
+ text-align:center;
+}
+h1{text-align:center;margin:10px 0}
+.desc{text-align:center;color:#aab4cc;font-size:14px}
+label{display:block;margin:18px 0 8px}
+input,select{
+ width:100%;
+ padding:15px;
+ border-radius:12px;
+ border:1px solid #34415e;
+ background:#0d1528;
+ color:white;
+ font-size:15px;
+ outline:none;
+}
+button{
+ width:100%;
+ padding:15px;
+ border:0;
+ border-radius:12px;
+ background:linear-gradient(90deg,#ff6b35,#ff9d42);
+ color:white;
+ font-size:17px;
+ font-weight:bold;
+ margin-top:18px;
+ cursor:pointer;
+}
+button:active{transform:scale(.98)}
+.preview{
+ display:none;
+ margin-top:20px;
+ background:#0d1528;
+ padding:12px;
+ border-radius:15px;
+ text-align:center;
+}
+.preview img{
+ width:100%;
+ border-radius:12px;
+}
+.message{
+ margin-top:15px;
+ padding:12px;
+ border-radius:10px;
+ background:#202d47;
+ color:#d9e4ff;
+ text-align:center;
+ line-height:1.7;
+ font-size:14px;
+}
+.footer{
+ text-align:center;
+ color:#8995ae;
+ font-size:12px;
+ margin-top:22px;
+}
 </style>
 </head>
+
 <body>
-<main>
-<div class="brand">
-<div class="logo">⬇</div>
-<h1>All Video Downloader</h1>
-</div>
+<div class="container">
 
-<p class="subtitle">حمّل مقاطعك بسهولة واختر الصيغة المناسبة</p>
+<div class="logo">📥</div>
+<h1>محمل الفيديوهات</h1>
+<p class="desc">أدخل رابط الفيديو لعرض المعاينة</p>
 
-<div class="tabs">
-<button type="button" class="active" data-platform="YouTube">YouTube</button>
-<button type="button" data-platform="Facebook">Facebook</button>
-</div>
-
-<label for="url">رابط الفيديو</label>
-<input id="url" type="url" placeholder="الصق رابط الفيديو هنا">
+<label>رابط الفيديو</label>
+<input id="videoUrl" type="url" placeholder="ضع رابط الفيديو هنا">
 
 <label>صيغة الملف</label>
-<div class="format">
-<button type="button" class="active" data-format="MP4">فيديو MP4</button>
-<button type="button" data-format="MP3">صوت MP3</button>
+<select id="format">
+<option value="mp4">MP4 - فيديو</option>
+<option value="mp3">MP3 - صوت</option>
+</select>
+
+<button onclick="analyzeVideo()">تحليل الرابط</button>
+
+<div class="preview" id="preview">
+<img id="thumbnail" alt="معاينة الفيديو">
+<h3 id="videoTitle">معاينة الفيديو</h3>
 </div>
 
-<button class="primary" id="analyze" type="button">تحليل الرابط</button>
-<div id="result" role="status" aria-live="polite"></div>
+<div class="message" id="message">
+اختر رابط الفيديو واضغط تحليل الرابط.
+</div>
 
-<p class="hint">استخدم الأداة مع المحتوى الذي تملكه أو لديك إذن بتنزيله. التنزيل الفعلي يحتاج إلى خادم معالجة.</p>
-<footer>All Video Downloader</footer>
-</main>
+<div class="footer">
+أداة مجانية لعرض معاينة روابط الفيديو
+</div>
+
+</div>
 
 <script>
-let platform='YouTube';
-let format='MP4';
-const result=document.getElementById('result');
+function analyzeVideo(){
 
-document.querySelectorAll('[data-platform]').forEach(button=>{
-button.addEventListener('click',()=>{
-platform=button.dataset.platform;
-document.querySelectorAll('[data-platform]').forEach(item=>{
-item.classList.toggle('active',item===button);
-});
-});
-});
+ const url=document.getElementById("videoUrl").value.trim();
+ const preview=document.getElementById("preview");
+ const message=document.getElementById("message");
+ const thumbnail=document.getElementById("thumbnail");
+ const title=document.getElementById("videoTitle");
 
-document.querySelectorAll('[data-format]').forEach(button=>{
-button.addEventListener('click',()=>{
-format=button.dataset.format;
-document.querySelectorAll('[data-format]').forEach(item=>{
-item.classList.toggle('active',item===button);
-});
-});
-});
+ preview.style.display="none";
 
-document.getElementById('analyze').addEventListener('click',()=>{
-const value=document.getElementById('url').value.trim();
-result.classList.add('show');
+ if(!url){
+  message.textContent="يرجى إدخال رابط الفيديو أولاً.";
+  return;
+ }
 
-if(!value){
-result.textContent='يرجى لصق رابط الفيديو أولاً.';
-return;
+ let videoId=null;
+
+ try{
+  const parsed=new URL(url);
+  const host=parsed.hostname.replace(/^www\./,"");
+
+  if(host==="youtu.be"){
+   videoId=parsed.pathname.split("/")[1];
+  }
+
+  if(host==="youtube.com" || host==="m.youtube.com"){
+   videoId=parsed.searchParams.get("v");
+
+   if(!videoId){
+    const parts=parsed.pathname.split("/");
+    const index=parts.findIndex(p=>p==="embed" || p==="shorts");
+    if(index!==-1) videoId=parts[index+1];
+   }
+  }
+
+ }catch(e){
+  message.textContent="الرابط غير صحيح. تأكد من نسخه بشكل صحيح.";
+  return;
+ }
+
+ if(videoId && /^[a-zA-Z0-9_-]{11}$/.test(videoId)){
+  thumbnail.src="https://i.ytimg.com/vi/"+videoId+"/hqdefault.jpg";
+  title.textContent="معاينة فيديو YouTube";
+  preview.style.display="block";
+
+  message.textContent=
+   "تم التعرف على رابط الفيديو بنجاح. هذه معاينة فقط؛ تنزيل MP3 أو MP4 يحتاج إلى خادم معالجة خارجي.";
+  return;
+ }
+
+ if(url.includes("facebook.com") || url.includes("fb.watch")){
+  message.textContent=
+   "تم إدخال رابط Facebook. عرض المعاينة والتنزيل يحتاج إلى ربط خدمة معالجة خارجية.";
+  return;
+ }
+
+ message.textContent=
+  "لم نتمكن من التعرف على المنصة. جرّب رابط YouTube أو Facebook.";
 }
-
-let parsed;
-try{
-parsed=new URL(value);
-if(!['http:','https:'].includes(parsed.protocol))throw new Error();
-}catch(e){
-result.textContent='الرابط غير صحيح. تأكد من الرابط.';
-return;
-}
-
-const host=parsed.hostname.toLowerCase().replace(/^www\./,'');
-const domains=platform==='YouTube'
-?['youtube.com','youtu.be']
-:['facebook.com','fb.watch'];
-
-const valid=domains.some(domain=>host===domain||host.endsWith('.'+domain));
-
-if(!valid){
-result.textContent='الرابط لا يبدو تابعاً لمنصة '+platform+'.';
-return;
-}
-
-result.textContent='تم التحقق من الرابط واختيار '+format+'. لكن التنزيل الفعلي لم يبدأ بعد؛ يحتاج إلى خادم معالجة خارجي.';
-});
 </script>
+
 </body>
 </html>
